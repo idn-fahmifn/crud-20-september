@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->uuid()->unique();
-            $table->foreignId('location_id')->nullable()->constrained('locations')->nullOnDelete()->cascadeOnDelete();
+            $table->foreignId('location_id')->nullable()->constrained('locations')->nullOnDelete()->cascadeOnUpdate();
             $table->string('item_name');
             $table->string('brand');
             $table->integer('stock');

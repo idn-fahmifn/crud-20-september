@@ -52,7 +52,9 @@
                             <tr class="text-slate-700 dark:text-slate-100">
                                 <td class="px-8 py-2 text-start">{{$item->item_name}}</td>
                                 <td class="px-8 py-2 text-start">{{$item->stock}}</td>
-                                <td class="px-8 py-2 text-start">{{$item->location->location_name}}</td>
+                                <td class="px-8 py-2 text-start">
+                                    {{ $item->location_id === null ? 'please add location' : $item->location->location_name }}
+                                </td>
                                 <td class="px-8 py-2 text-start">
                                     <a href="{{route('items.show', $item->uuid)}}">detail</a>
                                 </td>

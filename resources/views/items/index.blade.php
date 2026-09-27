@@ -48,16 +48,20 @@
                         </thead>
                         <tbody>
 
-                            @foreach ($items as $item)
+                            @forelse ($items as $item)
                             <tr class="text-slate-700 dark:text-slate-100">
                                 <td class="px-8 py-2 text-start">{{$item->item_name}}</td>
-                                <td class="px-8 py-2 text-start">{{$item->stock}} item</td>
-                                <td class="px-8 py-2 text-start">{{$item->location}}</td>
+                                <td class="px-8 py-2 text-start">{{$item->stock}}</td>
+                                <td class="px-8 py-2 text-start">{{$item->location->location_name}}</td>
                                 <td class="px-8 py-2 text-start">
-                                    <a href="{{route('locations.show', $location->uuid)}}">detail</a>
+                                    <a href="{{route('items.show', $item->uuid)}}">detail</a>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr class="text-slate-700 dark:text-slate-100">
+                                <td colspan="4" class="py-12 text-center">Item not found</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
 
@@ -83,6 +87,13 @@
                 </div>
 
                 <div class="mt-4">
+                    <x-input-label for="brand" :value="__('Brand Name')" />
+                    <x-text-input id="brand" class="block mt-1 w-full" type="text" name="brand" :value="old('brand')"
+                        required autofocus autocomplete="brand" />
+                    <x-input-error :messages="$errors->get('brand')" class="mt-2" />
+                </div>
+
+                <div class="mt-4">
                     <x-input-label for="location" :value="__('Location')" />
                     <select name="location" id="location" required class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                         <option value="" disabled>choose location</option>
@@ -104,7 +115,7 @@
 
                 <div class="mt-4">
                     <x-input-label for="images" :value="__('Item Image')" />
-                    <x-text-input id="images" class="block mt-1 w-full py-6 px-2 border border-dashed" type="file" name="images" :value="old('images')"
+                    <x-text-input id="images" accept="image/*" class="block mt-1 w-full py-6 px-2 border border-dashed" type="file" name="images" :value="old('images')"
                         required autofocus autocomplete="images" />
                     <x-input-error :messages="$errors->get('images')" class="mt-2" />
                 </div>

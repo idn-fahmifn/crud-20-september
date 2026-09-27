@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\{Item, Location};
 
@@ -17,6 +18,7 @@ class ItemController extends Controller
     {
         $items = Item::paginate(5);
         $locations = Location::latest()->get();
+
         return view('items.index', compact('items', 'locations'));
     }
 
@@ -39,7 +41,7 @@ class ItemController extends Controller
             'location' => ['required', 'integer', Rule::exists('locations', 'id')],
             'stock' => ['required', 'integer', 'min:0', 'max:999'],
             'images' => ['required', 'image', 'mimes:png,jpg,jpeg,svg'],
-            'desc' => ['required']
+            'desc' => ['required'],
         ]);
 
         $simpan = [
@@ -53,8 +55,8 @@ class ItemController extends Controller
 
         $gambar = $request->file('images');
         $format = $gambar->getClientOriginalExtension();
-        $nama = 'items_'.now()->format('Ymdhis').'_'.uniqid().'.'.$format; //items_20260904_abcd.png
-        
+        $nama = 'items_'.now()->format('Ymdhis').'_'.uniqid().'.'.$format; // items_20260904_abcd.png
+
         // simpen ke database
         $simpan['photo'] = $nama;
         $gambar->storeAs('items', $nama, 'public');
@@ -71,7 +73,8 @@ class ItemController extends Controller
     {
         $item = Item::where('uuid', $param)->firstOrFail();
         $locations = Location::all();
-        return view('items.detail', compact('item', 'locations')); 
+
+        return view('items.detail', compact('item', 'locations'));
     }
 
     /**
@@ -85,9 +88,47 @@ class ItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $param)
     {
-        //
+        $request->validate([
+            'item' => ['required', 'string', 'min:3', 'max:30'],
+            'brand' => ['required', 'string', 'min:3', 'max:30'],
+            'location' => ['required', 'integer', Rule::exists('locations', 'id')],
+            'stock' => ['required', 'integer', 'min:0', 'max:999'],
+            'images' => ['image', 'mimes:png,jpg,jpeg,svg'],
+            'desc' => ['required'],
+        ]);
+
+        $data = Item::where('uuid', $param)->first();
+
+        $simpan = [
+            'uuid' => Str::uuid(),
+            'item_name' => $request->item,
+            'brand' => $request->brand,
+            'stock' => $request->stock,
+            'desc' => $request->desc,
+            'location_id' => $request->location,
+        ];
+
+        if ($request->hasFile('images')) {
+
+            // hapus dulu data lama
+            if($data->photo){
+                Storage::disk('public')->delete('/items/'.$data->photo);
+            }
+
+            $gambar = $request->file('images');
+            $format = $gambar->getClientOriginalExtension();
+            $nama = 'items_'.now()->format('Ymdhis').'_'.uniqid().'.'.$format; // items_20260904_abcd.png
+
+            // simpen ke database
+            $simpan['photo'] = $nama;
+            $gambar->storeAs('items', $nama, 'public');
+        }
+
+        $data->update($simpan);
+
+        return redirect()->route('items.show', $data->uuid)->with('success', 'Item has been created');
     }
 
     /**

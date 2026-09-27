@@ -79,7 +79,7 @@
                         class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                         <option value="" disabled>choose location</option>
                         @forelse ($locations as $location)
-                        <option value="{{$location->id}}" @selected(old('location', $item->location_id) == $item->location_id ) >{{$location->location_name}}</option>
+                        <option value="{{$location->id}}" @selected(old('location', $item->location_id) == $location->id ) >{{$location->location_name}}</option>
                         @empty
                         <option value="" disabled>location not found</option>
                         @endforelse

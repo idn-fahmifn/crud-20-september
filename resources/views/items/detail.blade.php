@@ -47,6 +47,11 @@
                 <p class="mt-2 text-slate-900 dark:text-slate-100">
                     Location : {{ $item->location_id === null ? 'change location' : $item->location->location_name }}
                 </p>
+
+                <img src="{{asset('storage/items/'.$item->photo)}}" width="200" alt="Image Item">
+
+
+
             </div>
         </div>
 

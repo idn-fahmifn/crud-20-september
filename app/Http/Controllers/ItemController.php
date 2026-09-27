@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Storage;
 
 use App\Models\{Item, Location};
 
@@ -113,7 +113,7 @@ class ItemController extends Controller
         if ($request->hasFile('images')) {
 
             // hapus dulu data lama
-            if($data->photo){
+            if ($data->photo) {
                 Storage::disk('public')->delete('/items/'.$data->photo);
             }
 
@@ -128,14 +128,21 @@ class ItemController extends Controller
 
         $data->update($simpan);
 
-        return redirect()->route('items.show', $data->uuid)->with('success', 'Item has been created');
+        return redirect()->route('items.show', $data->uuid)->with('success', 'Item has been updated');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($param)
     {
-        //
+        $data = Item::where('uuid', $param)->first();
+        if ($data->photo) {
+            Storage::disk('public')->delete('/items/'.$data->photo);
+        }
+        $data->delete();
+        return redirect()->route('items.index')
+        ->with('success', 'Item has been deleted');
+
     }
 }

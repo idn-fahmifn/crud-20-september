@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Item;
+use App\Models\{Item, Location};
 
 class ItemController extends Controller
 {
@@ -14,7 +14,8 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::paginate(5);
-        return view('items.index', compact('items'));
+        $locations = Location::latest()->get();
+        return view('items.index', compact('items', 'locations'));
     }
 
     /**

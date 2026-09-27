@@ -83,17 +83,36 @@
                 </div>
 
                 <div class="mt-4">
+                    <x-input-label for="location" :value="__('Location')" />
+                    <select name="location" id="location" required class="block mt-1 w-full">
+                        <option value="" disabled>choose location</option>
+                        @forelse ($locations as $location)
+                            <option value="{{$location->id}}" @selected(old('location') == $location->id) >{{$location->location_name}}</option>
+                        @empty
+                        <option value="" disabled>location not found</option>
+                        @endforelse
+                    </select>
+                    <x-input-error :messages="$errors->get('location')" class="mt-2" />
+                </div>
+
+                <div class="mt-4">
                     <x-input-label for="stock" :value="__('Item Stock')" />
                     <x-text-input id="stock" class="block mt-1 w-full" type="number" name="stock" :value="old('stock')"
                         required autofocus autocomplete="stock" />
                     <x-input-error :messages="$errors->get('stock')" class="mt-2" />
                 </div>
 
+                <div class="mt-4">
+                    <x-input-label for="images" :value="__('Item Image')" />
+                    <x-text-input id="images" class="block mt-1 w-full py-6 px-2 border border-dashed" type="file" name="images" :value="old('images')"
+                        required autofocus autocomplete="images" />
+                    <x-input-error :messages="$errors->get('images')" class="mt-2" />
+                </div>
 
                 <div class="mt-4">
-                    <x-input-label for="notes" :value="__('Notes')" />
-                    <x-text-area name="notes" class="mt-1 block w-full">{{old('notes')}}</x-text-area>
-                    <x-input-error :messages="$errors->get('notes')" class="mt-2" />
+                    <x-input-label for="desc" :value="__('Item Description')" />
+                    <x-text-area name="desc" class="mt-1 block w-full">{{old('desc')}}</x-text-area>
+                    <x-input-error :messages="$errors->get('desc')" class="mt-2" />
                 </div>
 
                 <div class="mt-4">

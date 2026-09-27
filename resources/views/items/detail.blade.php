@@ -45,7 +45,7 @@
                 <p class="mt-2 text-slate-900 dark:text-slate-100">{{$item->brand}}</p>
                 <p class="mt-2 text-slate-900 dark:text-slate-100">Total Stock : {{$item->stock}}</p>
                 <p class="mt-2 text-slate-900 dark:text-slate-100">
-                    Location :  {{ $item->location_id === null ? 'change location' : $item->location->location_name }}
+                    Location : {{ $item->location_id === null ? 'change location' : $item->location->location_name }}
                 </p>
             </div>
         </div>
@@ -61,24 +61,25 @@
                 @method('PUT')
                 <div class="mt-4">
                     <x-input-label for="item" :value="__('Item Name')" />
-                    <x-text-input id="item" class="block mt-1 w-full" type="text" name="item" :value="old('item', $item->item_name)"
-                        required autofocus autocomplete="item" />
+                    <x-text-input id="item" class="block mt-1 w-full" type="text" name="item"
+                        :value="old('item', $item->item_name)" required autofocus autocomplete="item" />
                     <x-input-error :messages="$errors->get('item')" class="mt-2" />
                 </div>
 
                 <div class="mt-4">
                     <x-input-label for="brand" :value="__('Brand Name')" />
-                    <x-text-input id="brand" class="block mt-1 w-full" type="text" name="brand" :value="old('brand', $item->brand)"
-                        required autofocus autocomplete="brand" />
+                    <x-text-input id="brand" class="block mt-1 w-full" type="text" name="brand"
+                        :value="old('brand', $item->brand)" required autofocus autocomplete="brand" />
                     <x-input-error :messages="$errors->get('brand')" class="mt-2" />
                 </div>
 
                 <div class="mt-4">
                     <x-input-label for="location" :value="__('Location')" />
-                    <select name="location" id="location" required class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                    <select name="location" id="location" required
+                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                         <option value="" disabled>choose location</option>
                         @forelse ($locations as $location)
-                            <option value="{{$location->id}}" @selected(old('location') == $item->location_id) >{{$location->location_name}}</option>
+                        <option value="{{$location->id}}" @selected(old('location', $item->location_id) == $item->location_id ) >{{$location->location_name}}</option>
                         @empty
                         <option value="" disabled>location not found</option>
                         @endforelse
@@ -88,15 +89,15 @@
 
                 <div class="mt-4">
                     <x-input-label for="stock" :value="__('Item Stock')" />
-                    <x-text-input id="stock" class="block mt-1 w-full" type="number" name="stock" :value="old('stock', $item->stock)"
-                        required autofocus autocomplete="stock" />
+                    <x-text-input id="stock" class="block mt-1 w-full" type="number" name="stock"
+                        :value="old('stock', $item->stock)" required autofocus autocomplete="stock" />
                     <x-input-error :messages="$errors->get('stock')" class="mt-2" />
                 </div>
 
                 <div class="mt-4">
                     <x-input-label for="images" :value="__('Item Image')" />
-                    <x-text-input id="images" accept="image/*" class="block mt-1 w-full py-6 px-2 border border-dashed" type="file" name="images" :value="old('images')"
-                        autofocus autocomplete="images" />
+                    <x-text-input id="images" accept="image/*" class="block mt-1 w-full py-6 px-2 border border-dashed"
+                        type="file" name="images" :value="old('images')" autofocus autocomplete="images" />
                     <x-input-error :messages="$errors->get('images')" class="mt-2" />
                 </div>
 

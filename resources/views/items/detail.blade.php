@@ -3,11 +3,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2">
             <div class="">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    Locations
+                    Item
                 </h2>
             </div>
             <div class="flex justify-start md:justify-end">
-                <form action="{{route('locations.destroy', $data->uuid)}}" method="post">
+                <form action="{{route('items.destroy', $item->uuid)}}" method="post">
                     @csrf
                     @method('delete')
                     <x-primary-button type="button" x-data=""
@@ -22,9 +22,9 @@
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 mt-3 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <h3 class="text-xl text-slate-900 dark:text-slate-100">{{$data->location_name}}</h3>
-                <p class="mt-2 text-slate-900 dark:text-slate-100">{{$data->size}}</p>
-                <p class="mt-2 text-slate-900 dark:text-slate-100">{{$data->notes}}</p>
+                <h3 class="text-xl text-slate-900 dark:text-slate-100">{{$item->location_name}}</h3>
+                <p class="mt-2 text-slate-900 dark:text-slate-100">{{$item->size}}</p>
+                <p class="mt-2 text-slate-900 dark:text-slate-100">{{$item->notes}}</p>
             </div>
         </div>
 
@@ -49,24 +49,7 @@
 
             <div class="bg-white dark:bg-gray-800 mt-3 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="bg-white dark:bg-slate-800 rounded-md overflow-hidden">
-                    <table class="w-full">
-                        <thead class="bg-red-700">
-                            <tr class="text-white">
-                                <th class="px-8 py-4 text-start">Item Name</th>
-                                <th class="px-8 py-4 text-start">Item Brand</th>
-                                <th class="px-8 py-4 text-start">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="text-slate-700 dark:text-slate-100">
-                                <td class="px-8 py-2 text-start">Server</td>
-                                <td class="px-8 py-2 text-start">10</td>
-                                <td class="px-8 py-2 text-start">
-                                    <a href="">detail</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    
                 </div>
             </div>
         </div>
@@ -74,48 +57,8 @@
 
     <x-modal name="create-new" :show="false" focusable>
         <div class="p-8">
-            <h3 class="text-slate-900 dark:text-slate-200">Edit Location</h3>
-            <form action="{{route('locations.update', $data->uuid)}}" method="post">
-                @csrf
-                @method('put')
-                <div class="mt-4">
-                    <x-input-label for="location" :value="__('Location Name')" />
-                    <x-text-input id="location" class="block mt-1 w-full" type="text" name="location"
-                        :value="old('location', $data->location_name)" required autofocus autocomplete="Location" />
-                    <x-input-error :messages="$errors->get('location')" class="mt-2" />
-                </div>
-                <div class="mt-4">
-                    <x-input-label for="size" :value="__('Location Size')" />
-                    @php
-                    $ukuran = [
-                    'small' => 'Small',
-                    'medium' => 'Medium',
-                    'large' => 'Large',
-                    ]
-                    @endphp
-                    <div class="flex justify-between">
-                        @foreach ($ukuran as $item => $label)
-                        <label for="{{$label}}">
-                            <input type="radio" name="size" id="{{$label}}" required value="{{$item}}"
-                                @checked(old('size', $data->size ) == $item)>
-                            <span class="ms-2 text-sm text-slate-800 dark:text-slate-200"">{{$label}}</span>
-                        </label>
-                    @endforeach
-                    </div>
-                    <x-input-error :messages=" $errors->get('size')" class="mt-2" />
-                    </div>
-
-                    <div class="mt-4">
-                        <x-input-label for="notes" :value="__('Notes')" />
-                        <x-text-area name="notes" class="mt-1 block w-full">{{old('notes', $data->notes)}}</x-text-area>
-                        <x-input-error :messages="$errors->get('notes')" class="mt-2" />
-                    </div>
-
-                    <div class="mt-4">
-                        <x-primary-button type="submit">Save</x-primary-button>
-                    </div>
-
-            </form>
+            <h3 class="text-slate-900 dark:text-slate-200">Edit Item</h3>
+            
         </div>
     </x-modal>
 

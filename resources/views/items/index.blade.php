@@ -84,7 +84,7 @@
 
                 <div class="mt-4">
                     <x-input-label for="location" :value="__('Location')" />
-                    <select name="location" id="location" required class="block mt-1 w-full">
+                    <select name="location" id="location" required class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                         <option value="" disabled>choose location</option>
                         @forelse ($locations as $location)
                             <option value="{{$location->id}}" @selected(old('location') == $location->id) >{{$location->location_name}}</option>
